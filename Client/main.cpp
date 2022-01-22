@@ -46,6 +46,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, /*실행 된 프로세스의 시
 
     MSG msg;
 
+    // GetMessage
+    // 메세지큐에서 메세지 확인 될 때까지 대기
+    // msg.message == WM_QUIT 인 경우 false 를 반환 -> 프로그램 종료
     // 기본 메시지 루프입니다:
     while (GetMessage(&msg, nullptr, 0, 0))
     {
@@ -102,7 +105,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
 
    HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-      CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
+      CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr); // kernel object
 
    if (!hWnd)
    {
@@ -125,7 +128,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //  WM_DESTROY  - 종료 메시지를 게시하고 반환합니다.
 //
 //
-LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+int g_x, g_y;
+LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) // 부가인자 WPARAM wParam(키보드입력), LPARAM lParam(마우스입력)
 {
     switch (message)
     {
@@ -146,14 +150,61 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             }
         }
         break;
-    case WM_PAINT:
+    case WM_PAINT: // 무효화 영역(Invalidate)이 발생한 경우 -> WM_PAINT 동작
         {
             PAINTSTRUCT ps;
-            HDC hdc = BeginPaint(hWnd, &ps);
-            // TODO: 여기에 hdc를 사용하는 그리기 코드를 추가합니다...
+
+            // Device Context 만들어서 kernel 에서 제공하는 window ID 를 반환
+            HDC hdc = BeginPaint(hWnd, &ps); // Device Context (kernel object) - 그리기 관련
+            // DC 의 목적지는 hwnd
+            // DC 의 펜은 기본펜(Black)
+            // DC 의 브러쉬는 기본 브러쉬(White)(사각형 안을 색칠함)
+
+            // 직접 펜을 만들어서 DC에 제공
+            HPEN hRedPen = CreatePen(PS_SOLID, 1, RGB(255, 0, 0));
+            // HBRUSH hBlueBrush = GetStockObject(); // 자주 쓰는 오브젝트들 미리 만들어 놓음 -> 내가 만들게 아니기 때문에 삭제하면 안됨
+            HBRUSH hBlueBrush = CreateSolidBrush(RGB(0, 0, 255));
+
+            // 기본 펜 ID 값을 받아 둠
+            HPEN hDefaultPen = (HPEN)SelectObject(hdc, hRedPen); // SelectObject는 범용적으로 쓰기 위해서 viod 함수이고 따라서 해당 목적에 맞에 캐스팅을 해줘야 한다. HPEN, HBRUSH etc.
+            // 기본 Drush ID 값을 받아 둠
+            HBRUSH hDefaultBrush = (HBRUSH)SelectObject(hdc, hBlueBrush);
+            
+            // 변경된 펜으로 사각형 그림
+            Rectangle(hdc, 10, 10, 110, 110);
+
+            // DC 의 펜과 Bush 를 원래 펜으로 되돌림
+            SelectObject(hdc, hDefaultPen);
+            SelectObject(hdc, hDefaultBrush);
+
+            // 다 쓴 Red펜 과 Brush 삭제 요청
+            DeleteObject(hRedPen); // kernel 에서 관리하는 메모리 이므로 함스로 요청해야 된다.
+            DeleteObject(hBlueBrush);
+
+            // 그리기 종료
             EndPaint(hWnd, &ps);
         }
         break;
+    case WM_KEYDOWN: // UINT message 에서 키보드 입력을 했을 때
+    {
+        switch (wParam) // WPARAM wParam 어떤 키보드를 눌렀는지 부가인자로 확인 가능
+        {
+        case VK_UP:
+            // ↑눌렀을때
+            break;
+        case 'W': // 대문자 기준으로 키를 인식함
+        {
+            int a = 0;
+        }
+            break;
+        }
+    }
+    case WM_LBUTTONDOWN:
+    {
+        g_x = LOWORD(lParam);
+        g_y = HIWORD(lParam);
+    }
+
     case WM_DESTROY:
         PostQuitMessage(0);
         break;
