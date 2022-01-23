@@ -47,22 +47,57 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, /*실행 된 프로세스의 시
 
     MSG msg;
 
-    SetTimer(g_hWnd, 0, 0, nullptr);
+    // SetTimer(g_hWnd, 0, 0, nullptr);
 
     // GetMessage
     // 메세지큐에서 메세지 확인 될 때까지 대기
     // msg.message == WM_QUIT 인 경우 false 를 반환 -> 프로그램 종료
     // 기본 메시지 루프입니다:
-    while (GetMessage(&msg, nullptr, 0, 0))
+    
+    // PeekMessage
+    // 메세지 유무와 관계없이 반환
+    // 메세지큐에서 메세지를 확인한 경우 true, 메세지큐에 메세지가 없는 경우 false를 반환한다.
+
+    DWORD dwPrevCount = GetTickCount();
+    DWORD dwAccCount = 0;
+    while (true)
     {
-        if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
+        if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
         {
-            TranslateMessage(&msg);
-            DispatchMessage(&msg);
+            int iTime = GetTickCount();
+            if (WM_QUIT == msg.message)
+            {
+                break;
+            }
+            if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
+            {
+                TranslateMessage(&msg);
+                DispatchMessage(&msg);
+            }
+            dwAccCount += (GetTickCount() - iTime);
+        }
+        // 메세지가 발생하지 않는 대부분의 시간
+        else
+        {
+            DWORD dwCurCount = GetTickCount();
+            if (dwCurCount - dwPrevCount > 1000)
+            {
+                float fRatio = (float)dwAccCount / 1000.f;
+                
+                wchar_t szBuff[50] = {};
+                swprintf_s(szBuff, L"비율 : %f", fRatio); // 문자열로 바꿔주는 함수
+                SetWindowText(g_hWnd, szBuff);
+
+                dwPrevCount = dwCurCount;
+            }
+
+            // Game 코드 수행
+            // 디자인 패턴(설계 유형)
+            // 싱글톤 패턴
         }
     }
 
-    KillTimer(g_hWnd, 0);
+    // KillTimer(g_hWnd, 0);
 
     return (int) msg.wParam;
 }
@@ -107,20 +142,20 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 //
 BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
-   hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
+    hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
 
-   g_hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-      CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr); // kernel object
+    g_hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
+        CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr); // kernel object
 
-   if (g_hWnd)
-   {
-      return FALSE;
-   }
+    if (!g_hWnd)
+    {
+        return FALSE;
+    }
 
-   ShowWindow(g_hWnd, nCmdShow);
-   UpdateWindow(g_hWnd);
+    ShowWindow(g_hWnd, nCmdShow);
+    UpdateWindow(g_hWnd);
 
-   return TRUE;
+    return TRUE;
 }
 
 //
@@ -273,11 +308,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
     }
         break;
     case WM_TIMER:
-        
-
-
         break;
-
     case WM_DESTROY:
         PostQuitMessage(0);
         break;
