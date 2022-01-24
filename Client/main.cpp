@@ -18,6 +18,38 @@ BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
+// 지역
+// 전역
+// 정적 (데이터 영역)
+// 1. 함수 안에
+// 2. 파일
+// 3. 클래스 안에
+// 외부
+class CClass
+{
+private:
+    int m_i;
+
+public:
+    static int m_iStatic; // 정적 멤버 함수 (데이터 영역) -> 따라서 CClass 객체가 생성될때 메모리 공간과 크기에 영향을 주지 않는다. 즉 CCalss는 int m_i 4바이트만 객체 생성시 stack 메모리에 올라감.
+    
+public:
+    void func()
+    {
+        m_i = 0;
+        m_iStatic = 0;
+    }
+
+    // 정적 멤버함수, 객체 없이 호출 가능, this 가 없다(멤버 접근 불가), 정적 멤버는 접근 가능
+    static void FUNC()
+    {
+        m_iStatic = 0;
+    }
+};
+
+int CClass::m_iStatic = 0; // pulic된 정적멤버는 반드시 초기화 해줘야한다. 이건 정적멤버의 문법이다.
+
+
 // SAL 주석
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance, /*실행 된 프로세스의 시작 주소*/
                      _In_opt_ HINSTANCE hPrevInstance,
@@ -47,8 +79,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, /*실행 된 프로세스의 시
 
     MSG msg;
 
-    // SetTimer(g_hWnd, 0, 0, nullptr);
-
     // GetMessage
     // 메세지큐에서 메세지 확인 될 때까지 대기
     // msg.message == WM_QUIT 인 경우 false 를 반환 -> 프로그램 종료
@@ -57,14 +87,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, /*실행 된 프로세스의 시
     // PeekMessage
     // 메세지 유무와 관계없이 반환
     // 메세지큐에서 메세지를 확인한 경우 true, 메세지큐에 메세지가 없는 경우 false를 반환한다.
-
-    DWORD dwPrevCount = GetTickCount();
-    DWORD dwAccCount = 0;
     while (true)
     {
         if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
         {
-            int iTime = GetTickCount();
             if (WM_QUIT == msg.message)
             {
                 break;
@@ -74,30 +100,15 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, /*실행 된 프로세스의 시
                 TranslateMessage(&msg);
                 DispatchMessage(&msg);
             }
-            dwAccCount += (GetTickCount() - iTime);
         }
         // 메세지가 발생하지 않는 대부분의 시간
         else
         {
-            DWORD dwCurCount = GetTickCount();
-            if (dwCurCount - dwPrevCount > 1000)
-            {
-                float fRatio = (float)dwAccCount / 1000.f;
-                
-                wchar_t szBuff[50] = {};
-                swprintf_s(szBuff, L"비율 : %f", fRatio); // 문자열로 바꿔주는 함수
-                SetWindowText(g_hWnd, szBuff);
-
-                dwPrevCount = dwCurCount;
-            }
-
             // Game 코드 수행
             // 디자인 패턴(설계 유형)
             // 싱글톤 패턴
         }
     }
-
-    // KillTimer(g_hWnd, 0);
 
     return (int) msg.wParam;
 }
