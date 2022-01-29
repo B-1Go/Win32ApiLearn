@@ -144,6 +144,7 @@
     <ClInclude Include="CCore.h" />
     <ClInclude Include="CkeyMgr.h" />
     <ClInclude Include="Client.h" />
+    <ClInclude Include="CObject.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
@@ -157,6 +158,7 @@
     <ClCompile Include="CkeyMgr.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="CObject.cpp" />
     <ClCompile Include="main.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>

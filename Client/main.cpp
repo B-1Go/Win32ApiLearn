@@ -190,21 +190,6 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //
 //
 
-#include <vector>
-
-using std::vector;
-
-struct tObjInfo
-{
-    POINT g_ptObjPos;
-    POINT g_ptObjScale;
-};
-
-vector<tObjInfo> g_vecInfo;
-
-POINT g_ptLT; // 좌상단 좌표
-POINT g_ptRB; // 우하단 좌표
-bool bLbtnDown = false;
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) // 부가인자 WPARAM wParam(키보드입력), LPARAM lParam(마우스입력)
 {
@@ -233,100 +218,20 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 
             // Device Context 만들어서 kernel 에서 제공하는 window ID 를 반환
             HDC hdc = BeginPaint(hWnd, &ps); // Device Context (kernel object) - 그리기 관련
-            // DC 의 목적지는 hwnd
-            // DC 의 펜은 기본펜(Black)
-            // DC 의 브러쉬는 기본 브러쉬(White)(사각형 안을 색칠함)
-
-            // 직접 펜을 만들어서 DC에 제공
-            HPEN hRedPen = CreatePen(PS_SOLID, 1, RGB(255, 0, 0));
-            // HBRUSH hBlueBrush = GetStockObject(); // 자주 쓰는 오브젝트들 미리 만들어 놓음 -> 내가 만들게 아니기 때문에 삭제하면 안됨
-            HBRUSH hBlueBrush = CreateSolidBrush(RGB(0, 0, 255));
-
-            // 기본 펜 ID 값을 받아 둠
-            HPEN hDefaultPen = (HPEN)SelectObject(hdc, hRedPen); // SelectObject는 범용적으로 쓰기 위해서 viod 함수이고 따라서 해당 목적에 맞에 캐스팅을 해줘야 한다. HPEN, HBRUSH etc.
-            // 기본 Drush ID 값을 받아 둠
-            HBRUSH hDefaultBrush = (HBRUSH)SelectObject(hdc, hBlueBrush);
             
-            // 변경된 펜으로 사각형 그림
-            if (bLbtnDown)
-            {
-                Rectangle(hdc
-                    , g_ptLT.x, g_ptLT.y
-                    , g_ptRB.x, g_ptRB.y);
-            }
-
-            // 추가된 사각형도 그려준다.
-            for (int i = 0; i < g_vecInfo.size(); ++i)
-            {
-                Rectangle(hdc
-                    , g_vecInfo[i].g_ptObjPos.x - g_vecInfo[i].g_ptObjScale.x / 2
-                    , g_vecInfo[i].g_ptObjPos.y - g_vecInfo[i].g_ptObjScale.y / 2
-                    , g_vecInfo[i].g_ptObjPos.x + g_vecInfo[i].g_ptObjScale.x / 2
-                    , g_vecInfo[i].g_ptObjPos.y + g_vecInfo[i].g_ptObjScale.y / 2);
-            }
-
-            // DC 의 펜과 Bush 를 원래 펜으로 되돌림
-            SelectObject(hdc, hDefaultPen);
-            SelectObject(hdc, hDefaultBrush);
-
-            // 다 쓴 Red펜 과 Brush 삭제 요청
-            DeleteObject(hRedPen); // kernel 에서 관리하는 메모리 이므로 함스로 요청해야 된다.
-            DeleteObject(hBlueBrush);
+            Rectangle(hdc, 1180, 668, 1280, 768);
 
             // 그리기 종료
             EndPaint(hWnd, &ps);
         }
         break;
     case WM_KEYDOWN: // UINT message 에서 키보드 입력을 했을 때
-    {
-        switch (wParam) // WPARAM wParam 어떤 키보드를 눌렀는지 부가인자로 확인 가능
-        {
-        case VK_UP:
-            //g_ptObjPos.y -= 10;
-            InvalidateRect(hWnd, nullptr, true);
-            break;
-        case VK_DOWN:
-            //g_ptObjPos.y += 10;
-            InvalidateRect(hWnd, nullptr, true);
-            break;
-        case VK_LEFT:
-            //g_ptObjPos.x -= 10;
-            InvalidateRect(hWnd, nullptr, true);
-            break;
-        case VK_RIGHT:
-            //g_ptObjPos.x += 10;
-            InvalidateRect(hWnd, nullptr, true);
-            break;
-            break;
-        }
-    }
         break;
     case WM_LBUTTONDOWN:
-        g_ptLT.x = LOWORD(lParam);
-        g_ptLT.y = HIWORD(lParam);
-        bLbtnDown = true;
         break;
     case WM_MOUSEMOVE:
-        g_ptRB.x = LOWORD(lParam);
-        g_ptRB.y = HIWORD(lParam);
-        InvalidateRect(hWnd, nullptr, true);
         break;
     case WM_LBUTTONUP:
-    {
-        g_ptRB.x = LOWORD(lParam);
-        g_ptRB.y = HIWORD(lParam);
-
-        tObjInfo info = {};
-        info.g_ptObjPos.x = (g_ptLT.x + g_ptRB.x) / 2;
-        info.g_ptObjPos.y = (g_ptLT.y + g_ptRB.y) / 2;
-
-        info.g_ptObjScale.x = abs(g_ptLT.x - g_ptRB.x);
-        info.g_ptObjScale.y = abs(g_ptLT.y - g_ptRB.y);
-
-        g_vecInfo.push_back(info);
-        bLbtnDown = false;
-        InvalidateRect(hWnd, nullptr, true);
-    }
         break;
     case WM_TIMER:
         break;
