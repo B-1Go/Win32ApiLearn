@@ -219,7 +219,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
             // Device Context 만들어서 kernel 에서 제공하는 window ID 를 반환
             HDC hdc = BeginPaint(hWnd, &ps); // Device Context (kernel object) - 그리기 관련
             
-            Rectangle(hdc, 1180, 668, 1280, 768);
+            // Rectangle(hdc, 1180, 668, 1280, 768);
 
             // 그리기 종료
             EndPaint(hWnd, &ps);

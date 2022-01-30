@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "CCore.h"
 
+#include "CTimeMgr.h"
+#include "CkeyMgr.h"
 #include "CObject.h"
 
 CObject g_obj;
@@ -29,8 +31,12 @@ int CCore::init(HWND _hWnd, POINT _ptResolution)
 
 	m_hDC = GetDC(m_hWnd);
 
-	g_obj.m_ptPos = POINT{ _ptResolution.x / 2, _ptResolution.y / 2 };
-	g_obj.m_ptScale = POINT{ 100, 100 };
+	// Manager 초기화
+	CTimeMgr::GetInst()->init();
+	CkeyMgr::GetInst()->init();
+
+	g_obj.SetPos(Vec2((float)(_ptResolution.x / 2), (float)(_ptResolution.y / 2)));
+	g_obj.SetScale(Vec2(100, 100));
 
 	return S_OK;
 }
@@ -44,24 +50,30 @@ void CCore::progress()
 
 void CCore::update()
 {
+	Vec2 vPos = g_obj.GetPos();
+
 	// 비동기 입력 받기
 	if (GetAsyncKeyState(VK_LEFT) & 0x8000)
 	{
-		g_obj.m_ptPos.x -= 1;
+		vPos.x -= 0.01f;
 	}
 
 	if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
 	{
-		g_obj.m_ptPos.x += 1;
+		vPos.x += 0.01f;
 	}
 	
+	g_obj.SetPos(vPos);
 }
 
 void CCore::render()
 {
 	// 그리기
-	Rectangle(m_hDC, g_obj.m_ptPos.x - g_obj.m_ptScale.x / 2
-		, g_obj.m_ptPos.y - g_obj.m_ptScale.y / 2
-		, g_obj.m_ptPos.x + g_obj.m_ptScale.x / 2
-		, g_obj.m_ptPos.y + g_obj.m_ptScale.y / 2);
+	Vec2 vPos = g_obj.GetPos();
+	Vec2 vScale = g_obj.GetScale();
+
+	Rectangle(m_hDC, int(vPos.x - vScale.x / 2.f)
+				   , int(vPos.y - vScale.y / 2.f)
+				   , int(vPos.x + vScale.x / 2.f)
+				   , int(vPos.y + vScale.y / 2.f));
 }
