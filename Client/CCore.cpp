@@ -3,6 +3,7 @@
 
 #include "CTimeMgr.h"
 #include "CkeyMgr.h"
+#include "CSceneMgr.h"
 #include "CObject.h"
 
 CObject g_obj;
@@ -47,6 +48,8 @@ int CCore::init(HWND _hWnd, POINT _ptResolution)
 	// Manager ÃÊ±âÈ­
 	CTimeMgr::GetInst()->init();
 	CkeyMgr::GetInst()->init();
+	CSceneMgr::GetInst()->init();
+
 
 	g_obj.SetPos(Vec2((float)(_ptResolution.x / 2), (float)(_ptResolution.y / 2)));
 	g_obj.SetScale(Vec2(100, 100));
