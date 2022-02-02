@@ -50,10 +50,6 @@ int CCore::init(HWND _hWnd, POINT _ptResolution)
 	CkeyMgr::GetInst()->init();
 	CSceneMgr::GetInst()->init();
 
-
-	g_obj.SetPos(Vec2((float)(_ptResolution.x / 2), (float)(_ptResolution.y / 2)));
-	g_obj.SetScale(Vec2(100, 100));
-
 	return S_OK;
 }
 
@@ -62,44 +58,16 @@ void CCore::progress()
 	// Manager Update
 	CTimeMgr::GetInst()->update();
 	CkeyMgr::GetInst()->update();
+	CSceneMgr::GetInst()->update();
 
-	update();
-
-	render();
-}
-
-void CCore::update()
-{
-	Vec2 vPos = g_obj.GetPos();
-
-	// 비동기 입력 받기
-	if (CkeyMgr::GetInst()->GetKeyState(KEY::LEFT) == KEY_STATE::HOLD)
-	{
-		vPos.x -= 200.f * CTimeMgr::GetInst()->GetfDT();
-	}
-
-	if (CkeyMgr::GetInst()->GetKeyState(KEY::RIGHT) == KEY_STATE::HOLD)
-	{
-		vPos.x += 200.f * CTimeMgr::GetInst()->GetfDT();
-	}
-	
-	g_obj.SetPos(vPos);
-}
-
-void CCore::render()
-{
+	// =========
+	// rendering
+	// =========
 	// 화면 clear
 	Rectangle(m_memDC, -1, -1, m_ptResolution.x + 1, m_ptResolution.y + 1);
 
-	// 그리기
-	Vec2 vPos = g_obj.GetPos();
-	Vec2 vScale = g_obj.GetScale();
-
-	Rectangle(m_memDC, int(vPos.x - vScale.x / 2.f)
-				   , int(vPos.y - vScale.y / 2.f)
-				   , int(vPos.x + vScale.x / 2.f)
-				   , int(vPos.y + vScale.y / 2.f));
+	CSceneMgr::GetInst()->render(m_memDC);
 
 	BitBlt(m_hDC, 0, 0, m_ptResolution.x, m_ptResolution.y
-			, m_memDC, 0, 0, SRCCOPY);
+		, m_memDC, 0, 0, SRCCOPY);
 }

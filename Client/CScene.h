@@ -13,6 +13,19 @@ public:
 	void SetName(const wstring& _strName) { m_strName = _strName; }
 	const wstring& GetName() { return m_strName; }
 
+	void update();
+	void render(HDC _dc);
+
+	// 순수 가상함수 1. 자식에서 start함수를 구현하지 않으면 객체가 생성 될 수 없다.  2. 부모가 Start함수로 객체를 만들 일이 없다.
+	virtual void Enter() = 0; // 해당 Scene 에 진입 시 호출
+	virtual void Exit() = 0; //  해당 Scene 에 탈출 시 호출
+
+
+protected:
+	void AddObject(CObject* _pObj, GROUP_TYPE _eType)
+	{
+		m_arrObj[(UINT)_eType].push_back(_pObj);
+	}
 
 public:
 	CScene();
