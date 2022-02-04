@@ -15,6 +15,7 @@ public:
 	void update();
 	void render(HDC _dc);
 
-	// 상속만 하는 부모클래스에서 반드시 소멸자에 virtual 해줘야 상속받은 자식클래스까지 소멸자가 호출이 된다.
+public:
+	CScene* GetCurScene() { return m_pCurScene; }
 };
 

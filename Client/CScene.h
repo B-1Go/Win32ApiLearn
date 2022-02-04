@@ -21,7 +21,7 @@ public:
 	virtual void Exit() = 0; //  해당 Scene 에 탈출 시 호출
 
 
-protected:
+public:
 	void AddObject(CObject* _pObj, GROUP_TYPE _eType)
 	{
 		m_arrObj[(UINT)_eType].push_back(_pObj);
