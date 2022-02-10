@@ -14,5 +14,10 @@ using std::wstring;
 #include <math.h>
 #include <assert.h>
 
+
+#pragma comment(lib, "msimg32.lib")
+
+
+
 #include "define.h"
 #include "struct.h"

@@ -6,6 +6,9 @@
 #include "CMonster.h"
 #include "CCore.h"
 
+#include "CPathMgr.h"
+#include "CTexture.h"
+
 CScene_Start::CScene_Start()
 {
 }

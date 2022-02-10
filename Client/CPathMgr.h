@@ -10,6 +10,7 @@ private:
 
 public:
 	void init();
+	const wchar_t* GetContentPath() { return m_szContentPath; }
 
 };
 
