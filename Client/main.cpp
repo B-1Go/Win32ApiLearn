@@ -5,6 +5,7 @@
 #include "Client.h"
 #include "CCore.h"
 
+
 #define MAX_LOADSTRING 100
 
 // 전역 변수:
@@ -57,6 +58,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, /*실행 된 프로세스의 시
                      _In_ LPWSTR    lpCmdLine,
                      _In_ int       nCmdShow)
 {
+    // 메모리 릭(누수) 체크
+    //_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+    // _CrtSetBreakAlloc(215); // 이거 쓰면 잘 주석걸어야됨
+
+
+
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
