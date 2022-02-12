@@ -14,6 +14,7 @@ public:
 	const wstring& GetName() { return m_strName; }
 
 	void update();
+	void finalupdate();
 	void render(HDC _dc);
 
 	// 순수 가상함수 1. 자식에서 start함수를 구현하지 않으면 객체가 생성 될 수 없다.  2. 부모가 Start함수로 객체를 만들 일이 없다.
