@@ -27,6 +27,8 @@ public:
 	virtual void finalupdate() final;
 	virtual void render(HDC _dc);
 
+	void component_render(HDC _dc);
+
 public:
 	CObject();
 	virtual ~CObject();

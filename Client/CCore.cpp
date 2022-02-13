@@ -12,6 +12,8 @@ CCore::CCore()
 	, m_hDC(0)
 	, m_hBit(0)
 	, m_memDC(0)
+	, m_arrBrush{}
+	, m_arrPen{}
 {
 }
 
@@ -21,6 +23,9 @@ CCore::~CCore()
 
 	DeleteDC(m_memDC);
 	DeleteObject(m_hBit);
+
+
+
 }
 
 int CCore::init(HWND _hWnd, POINT _ptResolution)
@@ -42,6 +47,8 @@ int CCore::init(HWND _hWnd, POINT _ptResolution)
 	HBITMAP hOldBit = (HBITMAP)SelectObject(m_memDC, m_hBit);
 	DeleteObject(hOldBit);
 
+	// 자주 사용할 펜 및 브러쉬 생성
+	CreateBrushPen();
 
 	// Manager 초기화
 	CPathMgr::GetInst()->init();
@@ -71,4 +78,19 @@ void CCore::progress()
 		, m_memDC, 0, 0, SRCCOPY);
 
 	//CTimeMgr::GetInst()->render();
+}
+
+void CCore::CreateBrushPen()
+{
+	// hollow brush
+	m_arrBrush[(UINT)BRUSH_TYPE::HOLLOW] = (HBRUSH)GetStockObject(HOLLOW_BRUSH); // 윈도우 개발자도 똑깥이 자주쓰는 브러쉬를 받아서 사용하는 함수를 구현함 따라서 CCore에서 지우기 않아도 알아서 지워짐
+
+	// red pen
+	m_arrPen[(UINT)PEN_TYPE::RED];
+
+	// green pen
+	m_arrPen[(UINT)PEN_TYPE::GREEN];
+
+	// blue pen
+	m_arrPen[(UINT)PEN_TYPE::BLUE];
 }

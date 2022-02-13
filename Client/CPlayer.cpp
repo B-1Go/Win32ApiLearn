@@ -70,6 +70,9 @@ void CPlayer::render(HDC _dc)
 	// BitBlt(_dc, int(vPos.x - (float)(iWidth / 2)), int(vPos.y - (float)(iHeigth / 2)), iWidth, iHeigth, m_pTex->GetDC(), 0, 0, SRCCOPY);
 
 	TransparentBlt(_dc, int(vPos.x - (float)(iWidth / 2)), int(vPos.y - (float)(iHeigth / 2)), iWidth, iHeigth, m_pTex->GetDC(), 0, 0, iWidth, iHeigth, RGB(255, 0, 255));
+
+	// 컴포넌트(충돌체, etc...)
+	component_render(_dc);
 }
 
 void CPlayer::CreateMissile()
