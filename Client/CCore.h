@@ -29,5 +29,7 @@ public:
 	HWND GetMainHwnd() { return m_hWnd; }
 	HDC GetMainDC() { return m_hDC; }
 	POINT GetResolution() { return m_ptResolution; }
+	HBRUSH GetBrush(BRUSH_TYPE _eTpye) { return m_arrBrush[(UINT)_eTpye]; }
+	HPEN GetPen(PEN_TYPE _eType) { return m_arrPen[(UINT)_eType]; }
 };
 

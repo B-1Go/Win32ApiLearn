@@ -19,6 +19,8 @@ public:
 	Vec2 GetPos() { return m_vPos; }
 	Vec2 GetScale() { return m_vScale; }
 
+	CCollider* GetCollider() { return m_pCollider; }
+
 	void CreateCollider();
 
 

@@ -24,8 +24,10 @@ CCore::~CCore()
 	DeleteDC(m_memDC);
 	DeleteObject(m_hBit);
 
-
-
+	for (int i = 0; i < (UINT)PEN_TYPE::END; ++i)
+	{
+		DeleteObject(m_arrPen[i]);
+	}
 }
 
 int CCore::init(HWND _hWnd, POINT _ptResolution)
@@ -85,12 +87,8 @@ void CCore::CreateBrushPen()
 	// hollow brush
 	m_arrBrush[(UINT)BRUSH_TYPE::HOLLOW] = (HBRUSH)GetStockObject(HOLLOW_BRUSH); // 윈도우 개발자도 똑깥이 자주쓰는 브러쉬를 받아서 사용하는 함수를 구현함 따라서 CCore에서 지우기 않아도 알아서 지워짐
 
-	// red pen
-	m_arrPen[(UINT)PEN_TYPE::RED];
-
-	// green pen
-	m_arrPen[(UINT)PEN_TYPE::GREEN];
-
-	// blue pen
-	m_arrPen[(UINT)PEN_TYPE::BLUE];
+	// red, green, blue pen
+	m_arrPen[(UINT)PEN_TYPE::RED] = CreatePen(PS_SOLID, 1, RGB(255, 0, 0));
+	m_arrPen[(UINT)PEN_TYPE::GREEN] = CreatePen(PS_SOLID, 1, RGB(0, 255, 0));
+	m_arrPen[(UINT)PEN_TYPE::BLUE] = CreatePen(PS_SOLID, 1, RGB(0, 0, 255));;
 }
