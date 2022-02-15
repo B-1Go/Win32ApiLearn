@@ -20,7 +20,8 @@ CPlayer::CPlayer()
 	m_pTex = CResMgr::GetInst()->LoadTexture(L"PlayerTex", L"texture\\player.bmp");
 
 	CreateCollider();
-	GetCollider()->SetScale(Vec2(100.f, 100.f));
+	GetCollider()->SetOffsetPos(Vec2(0.f, 15.f));
+	GetCollider()->SetScale(Vec2(30.f, 35.f));
 }
 
 CPlayer::~CPlayer()
