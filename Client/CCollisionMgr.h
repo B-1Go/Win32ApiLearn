@@ -1,12 +1,22 @@
 #pragma once
 
+class CCollider;
+
+union COLLIDER_ID
+{
+	struct {
+		UINT iLeft_id;
+		UINT iRight_id;
+	};
+	ULONGLONG ID;
+};
 
 
 class CCollisionMgr
 {
 	SINGLE(CCollisionMgr);
 private:
-	// 충돌체 간의 이전 프레임 충돌 정보
+	map<ULONGLONG, bool> m_mapColInfo; // 충돌체 간의 이전 프레임 충돌 정보
 	UINT m_arrCheck[(UINT)GROUP_TYPE::END]; // 그룹간의 충돌 체크 매트릭스
 
 
