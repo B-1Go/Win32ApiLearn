@@ -9,7 +9,7 @@ SelectGDI::SelectGDI(HDC _dc, PEN_TYPE _ePenType)
 	, m_hDefaultBrush(nullptr)
 	, m_hDefaultPen(nullptr)
 {
-	HPEN hPen = CCore::GetInst()->GetPen(PEN_TYPE::GREEN);
+	HPEN hPen = CCore::GetInst()->GetPen(_ePenType);
 	m_hDefaultPen = (HPEN)SelectObject(_dc, hPen);
 }
 

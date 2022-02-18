@@ -28,7 +28,7 @@ void CScene_Start::Enter()
 	AddObject(pObj, GROUP_TYPE::PLAYER);
 
 	// 몬스터 배치
-	int iMonster = 16;
+	int iMonster = 2;
 	float fMoveDist = 25.f;
 	float fObjScale = 50.f;
 
