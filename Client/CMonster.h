@@ -17,6 +17,9 @@ public:
     void SetCenterPos(Vec2 _vPos) { m_vCenterPos = _vPos; }
 
 public:
+    virtual void OnCollisionEnter(CCollider* _pOther);
+
+public:
     virtual void update();
 
 public:
