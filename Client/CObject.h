@@ -37,7 +37,7 @@ public:
 	virtual void OnCollisionExit(CCollider* _pOther) {}
 
 private:
-	void SerDaed() { m_bAlive = false; }
+	void SetDead() { m_bAlive = false; }
 
 public:
 	virtual void update() = 0;

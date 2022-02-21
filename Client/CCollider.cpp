@@ -27,7 +27,7 @@ CCollider::~CCollider()
 {
 	if (nullptr != m_pOwner)
 	{
-		delete m_pOwner;
+		//delete m_pOwner; // 이녀석 때문에 무한 스택 쌓임;;; 왜 있는지 나중에 조사 ㄱㄱ
 	}
 }
 

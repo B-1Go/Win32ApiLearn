@@ -49,7 +49,6 @@ void CEventMgr::Excute(const tEvent& _eve)
 		GROUP_TYPE eType = (GROUP_TYPE)_eve.wParam;
 
 		CSceneMgr::GetInst()->GetCurScene()->AddObject(pNewObj, eType);
-
 	}
 		break;
 	case EVENT_TYPE::DELETE_OBJECT:
@@ -58,7 +57,7 @@ void CEventMgr::Excute(const tEvent& _eve)
 		// object fmf Dead 상태로 변경
 		// 삭제예정 오브젝트를 모아둔다.
 		CObject* pDeadObj = (CObject*)_eve.lParam;
-		pDeadObj->SerDaed();
+		pDeadObj->SetDead();
 		m_vecDead.push_back(pDeadObj);
 	}
 		break;
