@@ -64,3 +64,16 @@ void CScene::render(HDC _dc)
 		}
 	}
 }
+
+void CScene::DeleteGroup(GROUP_TYPE _eTarget)
+{
+	Safe_Delete_Vec<CObject*> (m_arrObj[(UINT)_eTarget]); // 함수 탬플릿 과 함수 호출이랑은 차이가 있다! 이건 함수가 아니다!
+}
+
+void CScene::DeleteAll()
+{
+	for (UINT i = 0; i < (UINT)GROUP_TYPE::END; ++i)
+	{
+		DeleteGroup((GROUP_TYPE)i);
+	}
+}
