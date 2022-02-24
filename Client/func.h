@@ -19,3 +19,17 @@ void Safe_Delete_Vec(vector<T>& _vec)
 	}
 	_vec.clear();
 }
+
+template<typename T1, typename T2>
+void Safe_Delete_Map(map<T1, T2>& _map)
+{
+	typename map<T1, T2>::iterator iter = _map.begin(); // 탬플릿 안에서 inner class를 쓰려면 typename을 붙여줘야 한다. (2015년 컴파일부터 바뀐거 같음)
+	for (; iter != _vec.end(); ++iter)
+	{
+		if (nullptr != iter->second)
+		{
+			delete iter->second;
+		}		
+	}
+	_map.clear();
+}
