@@ -42,9 +42,9 @@ void CScene_Start::Enter()
 	AddObject(pObj, GROUP_TYPE::PLAYER);
 
 
-	CObject* pOtherPlayer = pObj->Clone();
-	pOtherPlayer->SetPos(Vec2(690.f, 384.f));
-	AddObject(pOtherPlayer, GROUP_TYPE::PLAYER);
+	//CObject* pOtherPlayer = pObj->Clone();
+	//pOtherPlayer->SetPos(Vec2(690.f, 384.f));
+	//AddObject(pOtherPlayer, GROUP_TYPE::PLAYER);
 
 
 	// 몬스터 배치

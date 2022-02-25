@@ -15,7 +15,6 @@
 #include "CAnimator.h"
 
 CPlayer::CPlayer()
-	: m_pTex(nullptr)
 {
 	// Texture 로딩하기
 	//m_pTex = CResMgr::GetInst()->LoadTexture(L"PlayerTex", L"texture\\player.bmp");
@@ -26,9 +25,11 @@ CPlayer::CPlayer()
 
 
 	// Texture 로딩하기
-	m_pTex = CResMgr::GetInst()->LoadTexture(L"PlayerTex", L"texture\\link_0.bmp");
+	CTexture* pTex = CResMgr::GetInst()->LoadTexture(L"PlayerTex", L"texture\\link_0.bmp");
+
 	CreateAnimator();
-	GetAnimator()->CreateAnimation(L"WALK_DOWN", m_pTex, Vec2(0.f, 260.f), Vec2(60.f, 65.f), Vec2(60.f, 0.f), 1.f, 10);
+	GetAnimator()->CreateAnimation(L"WALK_DOWN", pTex, Vec2(0.f, 260.f), Vec2(60.f, 65.f), Vec2(60.f, 0.f), 0.1f, 10);
+	GetAnimator()->Play(L"WALK_DOWN", true);
 }
 
 CPlayer::~CPlayer()
@@ -65,22 +66,12 @@ void CPlayer::update()
 	}
 
 	SetPos(vPos);
+
+	GetAnimator()->update();
 }
 
 void CPlayer::render(HDC _dc)
 {
-	int iWidth = (int)m_pTex->Width();
-	int iHeigth = (int)m_pTex->Heigth();
-
-	Vec2 vPos = GetPos();
-
-	int(vPos.x - (float)(iWidth / 2));
-	int(vPos.y - (float)(iHeigth / 2));
-
-	// BitBlt(_dc, int(vPos.x - (float)(iWidth / 2)), int(vPos.y - (float)(iHeigth / 2)), iWidth, iHeigth, m_pTex->GetDC(), 0, 0, SRCCOPY);
-
-	TransparentBlt(_dc, int(vPos.x - (float)(iWidth / 2)), int(vPos.y - (float)(iHeigth / 2)), iWidth, iHeigth, m_pTex->GetDC(), 0, 0, iWidth, iHeigth, RGB(255, 0, 255));
-
 	// 컴포넌트(충돌체, etc...)
 	component_render(_dc);
 }
