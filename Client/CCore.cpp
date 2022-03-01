@@ -7,6 +7,7 @@
 #include "CPathMgr.h"
 #include "CCollisionMgr.h"
 #include "CEventMgr.h"
+#include "CCamera.h"
 
 CCore::CCore()
 	: m_hWnd(0)
@@ -57,7 +58,7 @@ int CCore::init(HWND _hWnd, POINT _ptResolution)
 	// Manager ÃÊ±âÈ­
 	CPathMgr::GetInst()->init();
 	CTimeMgr::GetInst()->init();
-	CkeyMgr::GetInst()->init();
+	CKeyMgr::GetInst()->init();
 	CSceneMgr::GetInst()->init();
 
 	return S_OK;
@@ -69,7 +70,8 @@ void CCore::progress()
 	// Manager Update
 	// ==============
 	CTimeMgr::GetInst()->update();
-	CkeyMgr::GetInst()->update();
+	CKeyMgr::GetInst()->update();
+	CCamera::GetInst()->update();
 
 	// ============
 	// Scene Update

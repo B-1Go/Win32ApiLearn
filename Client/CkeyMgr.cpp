@@ -37,16 +37,19 @@ int g_arr[(int)KEY::LAST] =
 	VK_SPACE, //SPACE,
 	VK_RETURN, //ENTER,
 	VK_ESCAPE, //ESC,
-	
+
+	VK_LBUTTON, // Mouse Left Click
+	VK_RBUTTON, // Mouse Right Click
+
 	//LAST,
 };
 
-CkeyMgr::CkeyMgr()
+CKeyMgr::CKeyMgr()
 {}
-CkeyMgr::~CkeyMgr()
+CKeyMgr::~CKeyMgr()
 {}
 
-void CkeyMgr::init()
+void CKeyMgr::init()
 {
 	for (int i = 0; i < (int)KEY::LAST; ++i)
 	{
@@ -54,7 +57,7 @@ void CkeyMgr::init()
 	}
 }
 
-void CkeyMgr::update()
+void CKeyMgr::update()
 {
 	// 윈도우 포커싱 알아내기
 	//HWND hMainWnd = CCore::GetInst()->GetMainHwnd();
@@ -97,6 +100,13 @@ void CkeyMgr::update()
 				m_vecKey[i].bPrevPush = false;
 			}
 		}
+
+		// Mouse 위치 계산
+		POINT ptPos = {};
+		GetCursorPos(&ptPos);
+		ScreenToClient(CCore::GetInst()->GetMainHwnd(), &ptPos);
+
+		m_vCurMousePos = Vec2((float)ptPos.x, (float)ptPos.y);
 	}
 	// 윈도우 포커싱 헤제
 	else

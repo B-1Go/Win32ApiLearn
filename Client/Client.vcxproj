@@ -155,7 +155,7 @@
     <ClInclude Include="CCollisionMgr.h" />
     <ClInclude Include="CCore.h" />
     <ClInclude Include="CEventMgr.h" />
-    <ClInclude Include="CkeyMgr.h" />
+    <ClInclude Include="CKeyMgr.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="CMissile.h" />
     <ClInclude Include="CMonster.h" />
@@ -191,7 +191,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="CEventMgr.cpp" />
-    <ClCompile Include="CkeyMgr.cpp">
+    <ClCompile Include="CKeyMgr.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
     </ClCompile>

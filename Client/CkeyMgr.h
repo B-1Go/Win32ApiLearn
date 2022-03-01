@@ -51,6 +51,9 @@ enum class KEY
 	ENTER,
 	ESC,
 
+	LBTN,
+	RBTN,
+
 	LAST,
 };
 
@@ -60,19 +63,18 @@ struct tKeyInfo
 	bool bPrevPush; // 이전 프레임에서 눌렸는지 여부
 };
 
-class CkeyMgr
+class CKeyMgr
 {
-	SINGLE(CkeyMgr);
+	SINGLE(CKeyMgr);
 private:
 	vector<tKeyInfo> m_vecKey;
+	Vec2 m_vCurMousePos;
 
 public:
 	void init();
 	void update();
 
 public:
-	KEY_STATE GetKeyState(KEY _eKey)
-	{
-		return m_vecKey[(int)_eKey].eState;
-	}
+	KEY_STATE GetKeyState(KEY _eKey) { return m_vecKey[(int)_eKey].eState; }
+	Vec2 GetMousePos() { return m_vCurMousePos; }
 };
