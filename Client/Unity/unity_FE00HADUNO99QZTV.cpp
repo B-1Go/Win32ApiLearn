@@ -31,3 +31,6 @@
 
 #include "C:\Users\W11363\Documents\Winproj\Win32ApiLearn\Client\CPlayer.cpp"
 
+
+#include "C:\Users\W11363\Documents\Winproj\Win32ApiLearn\Client\CRes.cpp"
+

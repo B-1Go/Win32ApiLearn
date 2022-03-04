@@ -1,7 +1,4 @@
 
-#include "C:\Users\W11363\Documents\Winproj\Win32ApiLearn\Client\CRes.cpp"
-
-
 #include "C:\Users\W11363\Documents\Winproj\Win32ApiLearn\Client\CResMgr.cpp"
 
 
@@ -21,6 +18,9 @@
 
 
 #include "C:\Users\W11363\Documents\Winproj\Win32ApiLearn\Client\CTexture.cpp"
+
+
+#include "C:\Users\W11363\Documents\Winproj\Win32ApiLearn\Client\CTile.cpp"
 
 
 #include "C:\Users\W11363\Documents\Winproj\Win32ApiLearn\Client\CTimeMgr.cpp"

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "global.h"
+
 // 전방선언 (포인터 타입만 사용가능)
 class CObject;
 
